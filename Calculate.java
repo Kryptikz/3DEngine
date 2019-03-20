@@ -78,6 +78,7 @@ public class Calculate {
         double[] vector = new double[]{Math.random(),Math.random(),Math.random()};
         long fastsum=0;
         long slowsum=0;
+        long projsum=0;
         for(int i=0;i<runs;i++) {
             long startf = System.currentTimeMillis();
             int calcf=0;
@@ -91,11 +92,19 @@ public class Calculate {
                 slowvecmath(vector,matrix);
                 calcs++;
             }
+            long startp = System.currentTimeMillis();
+            int calcp=0;
+            while(System.currentTimeMillis()-1000<startp) {
+                project2D(vector,90,1,0,100);
+                calcp++;
+            }
             fastsum+=calcf;
             slowsum+=calcs;
+            projsum+=calcp;
             System.out.println("fastmath calculations per second: " + calcf);
             System.out.println("slowmath calculations per second: " + calcs);
+            System.out.println("projections per second: " + calcp);
         }
-        System.out.println("\n\nAverage fastmath cps: " + fastsum/runs + "\nAverage slowmath cps: " + slowsum/runs);
+        System.out.println("\n\nAverage fastmath cps: " + fastsum/runs + "\nAverage slowmath cps: " + slowsum/runs + "\nAverage projection cps: " + projsum/runs);
     }
 }
