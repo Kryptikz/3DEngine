@@ -1,6 +1,6 @@
 public class Calculate {
-    public static double[] vecmatmult(float[] v, float[][] m) {
-        double[] r = new double[]{(m[0][0]*v[0])+(m[0][1]*v[1])+(m[0][2]*v[2])+(m[0][3]*v[3]),(m[1][0]*v[0])+(m[1][1]*v[1])+(m[1][2]*v[2])+(m[1][3]*v[3]),(m[2][0]*v[0])+(m[2][1]*v[1])+(m[2][2]*v[2])+(m[2][3]*v[3]),(m[3][0]*v[0])+(m[3][1]*v[1])+(m[3][2]*v[2])+(m[3][3]*v[3])};
+    public static float[] vecmatmult(float[] v, float[][] m) {
+        float[] r = new float[]{(m[0][0]*v[0])+(m[0][1]*v[1])+(m[0][2]*v[2])+(m[0][3]*v[3]),(m[1][0]*v[0])+(m[1][1]*v[1])+(m[1][2]*v[2])+(m[1][3]*v[3]),(m[2][0]*v[0])+(m[2][1]*v[1])+(m[2][2]*v[2])+(m[2][3]*v[3]),(m[3][0]*v[0])+(m[3][1]*v[1])+(m[3][2]*v[2])+(m[3][3]*v[3])};
         return r;
     }
     public static double[] slowvecmath(float[] v, float[][] m) {
@@ -15,21 +15,21 @@ public class Calculate {
         }
         return result;
     }
-    public static double[] translate(float[] vector, double x, double y, double z) {
+    public static float[] translate(float[] vector, double x, double y, double z) {
         float[][] matrix = new float[][]{{1,0,0,(float)x},
                                          {0,1,0,(float)y},
                                          {0,0,1,(float)z},
                                          {0,0,0,1}};
         return vecmatmult(vector,matrix);   
     }
-    public static double[] scale(float[] vector, double x, double y, double z) {
+    public static float[] scale(float[] vector, double x, double y, double z) {
         float[][] matrix = new float[][]{{(float)x,0,0,0},
                                          {0,(float)y,0,0},
                                          {0,0,(float)z,0},
                                          {0,0,0,1}};
         return vecmatmult(vector,matrix);  
     }
-    public static double[] rotate(float[] vector, char c, double angle) {
+    public static float[] rotate(float[] vector, char c, double angle) {
         float[][] matrix = {};
         float asin=(float)(Math.sin(angle));
         float acos=(float)(Math.cos(angle));
@@ -61,13 +61,13 @@ public class Calculate {
         //float[][] matrix = new float[][]{   {mathtf,0,0,0},
         //                                    {0,mathtf,0,0},
         //                                    {0,0,-1*(float)((far+near)/fn),-1*(float)((2*(far*near))/fn)},
-        //                                    {0,0,0,0}};
+        //                                    {0,0,-1,0}};
         //double[] result = vecmatmult(vector,matrix);
         //double[] r = new double[]{(mathtf*v[0])+(0*v[1])+(0*v[2]),(m[1][0]*v[0])+(m[1][1]*v[1])+(m[1][2]*v[2]),(m[2][0]*v[0])+(m[2][1]*v[1])+(m[2][2]*v[2])};
-        double[] result = new double[]{(mathtf*vector[0]),(mathtf*vector[1])};
+        double[] result = new double[]{(mathtf*vector[0]),(mathtf*vector[1]),((-1*(float)((far+near)/fn))*vector[2])+((-1*(float)((2*(far*near)))*vector[3]))};
         //VECTOR MULTIPLICATION NOT FINISHED, FOURTH COLUMN IN MATRIX NEEDED
-        double x = -1*(result[0]);
-        double y = -1*(result[1]);
+        double x = -1*(result[0]/(-1*vector[2]));
+        double y = -1*(result[1]/(-1*vector[2]));
         x+=1;
         x/=2;
         y+=1;
